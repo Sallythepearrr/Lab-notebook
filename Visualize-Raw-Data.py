@@ -43,6 +43,7 @@ show_CaImaging_FOV(data, key='meanImg',
                    NL=3,
                    roiIndex=range(data.nROIs), 
                    ax=AX[2])
+print("hi")
 
 # save on desktop
 fig.savefig(os.path.join(os.path.expanduser('~'), 'Desktop', 'FOV.png'))
