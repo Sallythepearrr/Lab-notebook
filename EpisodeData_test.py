@@ -20,7 +20,8 @@ from physion.utils  import plot_tools as pt
 import numpy as np
 
 # %%
-datafolder = os.path.join(os.path.expanduser('~'), 'DATA', 'physion_Demo-Datasets','NDNF-WT','NWBs')
+datafolder = os.path.join(os.path.expanduser('~'), 'DATA', 'Sally', 'PYR_WT_V1-demo-2P-2025', 'NWBs'
+                                             )
 SESSIONS = scan_folder_for_NWBfiles(datafolder)
 SESSIONS['nwbfiles'] = [os.path.basename(f) for f in SESSIONS['files']]
 
@@ -47,7 +48,7 @@ data.build_running_speed()
 # ### init
 # %%
 quantities = ['dFoF', 'running_speed', 'pupil_diameter']
-protocol = "static-patch"
+protocol = "protocol-8" #simple, fast, high contrast, large)
 ep = EpisodeData(data, 
                  quantities = quantities, 
                  protocol_name = protocol, 
@@ -118,6 +119,10 @@ plot(response, 'n=%i eps' % response.shape[0])
 response = ep.get_response2D(quantity="running_speed")
 plot(response, 'n=%i eps' % response.shape[0])
 
+#2 dimensions (pupil_diameter) 
+response = ep.get_response2D(quantity="pupil_diameter")
+plot(response, 'n=%i eps' % response.shape[0])
+
 
 # %% [markdown]
 # ### compute_interval_cond
@@ -146,6 +151,19 @@ print("Condition in list of episodes : ", ep.find_episode_cond()) # no condition
 print("Condition in list of episodes : ", ep.find_episode_cond(key = 'angle', index = 0)) # angle 0
 print("Condition in list of episodes : ", ep.find_episode_cond(key = 'angle', index = 1)) # angle 90
 print("Condition in list of episodes : ", ep.find_episode_cond(key = 'angle', value = 90)) # angle 90
+
+
+#%%
+# try other variables in the protocol and check which variables can be conditioned on
+# only varied parameters can be used for conditioning
+
+print("Fixed parameter keys:", list(ep.fixed_parameters.keys()))
+for key in ep.fixed_parameters:
+    print(f"Value for fixed '{key}':", ep.fixed_parameters[key])
+
+print("Varied parameter keys:", list(ep.varied_parameters.keys()))
+for key in ep.varied_parameters:
+    print(f"Possible values for '{key}':", ep.varied_parameters[key])
 
 
 # %% [markdown]
