@@ -153,9 +153,10 @@ print("Condition in list of episodes : ", ep.find_episode_cond(key = 'angle', in
 print("Condition in list of episodes : ", ep.find_episode_cond(key = 'angle', value = 90)) # angle 90
 
 
-#%%
-# try other variables in the protocol and check which variables can be conditioned on
-# only varied parameters can be used for conditioning
+#%% [markdown]
+# #### Check if parameters can be conditioned on <br>
+# Try other variables in the protocol and check which variables can be conditioned on <br>
+# Only varied parameters can be used for conditioning
 
 print("Fixed parameter keys:", list(ep.fixed_parameters.keys()))
 for key in ep.fixed_parameters:
