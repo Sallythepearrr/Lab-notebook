@@ -48,7 +48,8 @@ data.build_running_speed()
 # ### init
 # %%
 quantities = ['dFoF', 'running_speed', 'pupil_diameter']
-protocol = "protocol-8" #simple, fast, high contrast, large)
+# protocol = "protocol-8" # 8 simple, varying, high contrast, large)
+protocol = "protocol-16" # 16 complex, varying, high contrast, large)
 ep = EpisodeData(data, 
                  quantities = quantities, 
                  protocol_name = protocol, 
@@ -147,12 +148,22 @@ print("Truncated response len : \n", len(response[:,pre_cond][0]))
 # by default no condition, all True <br>
 # conditions can be key (check ep.varied_parameters), index (which option of the varied parameters) or value (value of the varied parameter) <br>
  #%%
+ # For complex (natural images), condition on 'Image-ID' parameter
+ # Image-ID [0.,3.]
+
+print("Condition in list of episodes : ", ep.find_episode_cond()) # no condition
+print("Condition in list of episodes : ", ep.find_episode_cond(key = 'Image-ID', index = 0)) # first image (sunflower)
+print("Condition in list of episodes : ", ep.find_episode_cond(key = 'Image-ID', index = 1)) # second image (lotus)
+print("Condition in list of episodes : ", ep.find_episode_cond(key = 'Image-ID', value = 0.)) # first image
+
+
+ # For simple (gratings), condition on 'angle' parameter
+ # angle [0,90]
+ 
 print("Condition in list of episodes : ", ep.find_episode_cond()) # no condition
 print("Condition in list of episodes : ", ep.find_episode_cond(key = 'angle', index = 0)) # angle 0
 print("Condition in list of episodes : ", ep.find_episode_cond(key = 'angle', index = 1)) # angle 90
 print("Condition in list of episodes : ", ep.find_episode_cond(key = 'angle', value = 90)) # angle 90
-
-
 #%% [markdown]
 # #### Check if parameters can be conditioned on <br>
 # Try other variables in the protocol and check which variables can be conditioned on <br>

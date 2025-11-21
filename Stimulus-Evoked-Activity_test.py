@@ -15,8 +15,8 @@ pt.set_style('dark')
 # %%
 # load a datafile
 filename = os.path.join(os.path.expanduser('~'), 'DATA', 
-                        'physion_Demo-Datasets', 'SST-WT', 'NWBs',
-                        '2023_02_15-13-30-47.nwb')
+                        'Sally', 'PYR_WT_V1-demo-2P-2025', 'NWBs',
+                        '2025_11_13-14-27-23.nwb')
 
 data = physion.analysis.read_NWB.Data(filename,
                                      verbose=False)
@@ -26,8 +26,8 @@ data = physion.analysis.read_NWB.Data(filename,
 
 # %%
 
-# find protocol of full-field gratings
-p_name = [p for p in data.protocols if 'ff-gratings' in p][0]
+# find protocol of protocol-8
+p_name = [p for p in data.protocols if 'protocol-8' in p][0]
 episodes = physion.analysis.process_NWB.EpisodeData(data, 
                                                     quantities=['dFoF',
                                                                 'pupil_diameter'],
