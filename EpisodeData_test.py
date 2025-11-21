@@ -156,7 +156,7 @@ print("Condition in list of episodes : ", ep.find_episode_cond(key = 'Image-ID',
 print("Condition in list of episodes : ", ep.find_episode_cond(key = 'Image-ID', index = 1)) # second image (lotus)
 print("Condition in list of episodes : ", ep.find_episode_cond(key = 'Image-ID', value = 0.)) # first image
 
-
+#%%
  # For simple (gratings), condition on 'angle' parameter
  # angle [0,90]
  
@@ -164,8 +164,11 @@ print("Condition in list of episodes : ", ep.find_episode_cond()) # no condition
 print("Condition in list of episodes : ", ep.find_episode_cond(key = 'angle', index = 0)) # angle 0
 print("Condition in list of episodes : ", ep.find_episode_cond(key = 'angle', index = 1)) # angle 90
 print("Condition in list of episodes : ", ep.find_episode_cond(key = 'angle', value = 90)) # angle 90
+
+
 #%% [markdown]
-# #### Check if parameters can be conditioned on <br>
+# If above keys don't work,
+# Check if parameters can be conditioned on <br>
 # Try other variables in the protocol and check which variables can be conditioned on <br>
 # Only varied parameters can be used for conditioning
 

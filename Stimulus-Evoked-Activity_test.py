@@ -27,7 +27,7 @@ data = physion.analysis.read_NWB.Data(filename,
 # %%
 
 # find protocol of protocol-8
-p_name = [p for p in data.protocols if 'protocol-8' in p][0]
+p_name = [p for p in data.protocols if 'protocol-16' in p][0]
 episodes = physion.analysis.process_NWB.EpisodeData(data, 
                                                     quantities=['dFoF',
                                                                 'pupil_diameter'],
@@ -38,7 +38,7 @@ episodes = physion.analysis.process_NWB.EpisodeData(data,
 
 # %%
 # plot over varying angles
-plot_props = dict(column_key='angle',
+plot_props = dict(column_key='Image-ID',
                   with_annotation=True,
                   figsize=(9,1.8))
 
