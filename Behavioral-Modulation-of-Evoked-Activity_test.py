@@ -15,9 +15,9 @@ pt.set_style('dark')
 # ## Load the Episodes of a given Protocol in a Datafile 
 
 # %%
-filename = os.path.join(os.path.expanduser('~'), 
-                        'DATA', 'physion_Demo-Datasets', 'SST-WT', 'NWBs',
-                        '2023_02_15-13-30-47.nwb')
+filename = os.path.join(os.path.expanduser('~'), 'DATA', 
+                        'Sally', 'PYR_WT_V1-demo-2P-2025', 'NWBs',
+                        '2025_11_13-14-27-23.nwb')
 
 data = physion.analysis.read_NWB.Data(filename, verbose=False)
 data.build_dFoF(method_for_F0='sliding_percentile', 
@@ -26,7 +26,7 @@ data.build_dFoF(method_for_F0='sliding_percentile',
 
 Episodes = physion.analysis.process_NWB.EpisodeData(data,
                                                     quantities=['dFoF', 'running_speed', 'pupil_diameter'],
-                                                    protocol_name=[p for p in data.protocols if 'ff-gratings' in p][0],
+                                                    protocol_name=[p for p in data.protocols if 'protocol-15' in p][0],
                                                     verbose=False,
                                                     dt_sampling=10)
 
@@ -224,12 +224,20 @@ for j, title in enumerate(['rest / run', 'constricted / dilated', 'mixed states'
                 title=title)
 
 
+
+
+
+
+
+
+
+
 # %% [markdown]
 # ## Multiple Sessions
 
 # %%
 DATASET = physion.analysis.read_NWB.scan_folder_for_NWBfiles(\
-        os.path.join(os.path.expanduser('~'), 'DATA', 'physion_Demo-Datasets', 'SST-WT', 'NWBs'))
+        os.path.join(os.path.expanduser('~'), 'DATA', 'Sally', 'PYR_WT_V1-demo-2P-2025', 'NWBs'))
 
 Responses = {'run':[], 'rest':[],
              'constricted':[], 'dilated':[],
@@ -243,7 +251,7 @@ for f in DATASET['files']:
 
     Episodes = physion.analysis.process_NWB.EpisodeData(data, 
                                                     quantities=['dFoF', 'running_speed', 'pupil_diameter'],
-                                                    protocol_name=[p for p in data.protocols if 'ff-gratings' in p][0],
+                                                    protocol_name=[p for p in data.protocols if 'protocol-2' in p][0],
                                                     verbose=False, prestim_duration=3,
                                                     dt_sampling=10)
 
