@@ -17,8 +17,12 @@ rec = si.read_openephys(\
     stream_name='Record Node 101#OneBox-100.ProbeA')
 
 
-rec = rec.select_channels(rec.get_channel_ids()[:250])
+print("         -> removing bad channels [...]")
+bad_channel_ids, chan_labels = si.detect_bad_channels(rec,\
+                                         method="coherence+psd")
+rec = rec.remove_channels(bad_channel_ids)
 
+rec = rec.select_channels(rec.get_channel_ids()[:250])
 
 ks_folder=os.path.join(sys.argv[-1], 'kilosort4_%s' % rec_name)
 if os.path.isdir(ks_folder):
