@@ -33,5 +33,6 @@ if os.path.isdir(ks_folder):
 sorting = ss.run_sorter(sorter_name='kilosort4', 
                         recording=rec,
                         verbose=True,
-                        folder=ks_folder)
+                        folder=ks_folder,
+                        delete_recording_dat=False)
 
