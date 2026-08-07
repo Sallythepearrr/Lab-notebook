@@ -1,30 +1,45 @@
 # %%
 import os, sys, shutil
+import re
 import spikeinterface.sorters as ss
 import spikeinterface.full as si
 
+import sys
+sys.path += ['physion/src']
+from physion.assembling.dataset import read_spreadsheet
+
 folder  = sys.argv[-1]
-rec_name = folder.split(os.path.sep)[-1]
+print("Analyzing :", folder)
 
-print()
-print('    running "%s" ' % folder)
-print('                   ', rec_name)
-print()
+dataset, _, _ = read_spreadsheet(os.path.join(folder, 'DataTable.xlsx'))
 
+# --- extract information from the DataTable :
+#    (we extract them from the first protocol, they should be fixed for all)
+rec_name = dataset['Npx-Folder'][0] # the OpenEphys recording folder
+electrode_range = dataset['electrode-range'][0]
+bad_channels = dataset['bad-channels'][0]
+npx_path = os.path.join(folder, rec_name)
 
-rec = si.read_openephys(\
-    os.path.join(sys.argv[-1], folder),
-    stream_name='Record Node 101#OneBox-100.ProbeA')
+print("Reading Open Ephys from:", npx_path)
 
+# Get Ephys Folder
+rec = si.read_openephys(
+    npx_path,
+    stream_name='Record Node 101#OneBox-100.ProbeA'
+)
 
-print("         -> removing bad channels [...]")
-bad_channel_ids, chan_labels = si.detect_bad_channels(rec,\
-                                         method="coherence+psd")
-rec = rec.remove_channels(bad_channel_ids)
+print("         -> restricting to electrode range %s [...]" % electrode_range)
+e0, e1 = [int(e) for e in electrode_range.split('-')]
+rec = rec.select_channels(rec.get_channel_ids()[e0:e1])
 
-rec = rec.select_channels(rec.get_channel_ids()[:250])
+print("         -> removing n=%i bad channels [...]" % len(bad_channels.split(',')))
+rec = rec.remove_channels(bad_channels.split(','))
 
-ks_folder=os.path.join(sys.argv[-1], 'kilosort4_%s' % rec_name)
+print(" Final number of selected channels:", rec.get_num_channels())
+
+# Run Sorter
+
+ks_folder=os.path.join(folder, 'kilosort4_output')
 if os.path.isdir(ks_folder):
     y = input(' folder "%s" already exists ! \n Do you want to delete it ? y/[n]' % ks_folder)
     if y in ['y', 'yes']:
@@ -35,4 +50,3 @@ sorting = ss.run_sorter(sorter_name='kilosort4',
                         verbose=True,
                         folder=ks_folder,
                         delete_recording_dat=False)
-
