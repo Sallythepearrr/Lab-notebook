@@ -13,7 +13,7 @@ from physion.analysis.read_NWB import Data,\
     scan_folder_for_NWBfiles
 
 dataset = scan_folder_for_NWBfiles(\
-        os.path.join(os.path.expanduser('~'), 'DATA'),
+        os.path.join(os.path.expanduser('~'), 'DATA', 'Sally', 'Npx_WT_prelim_2026'),
             # for_protocol='flashed-stimuli')
             for_protocol='rough-mapping')
             # )
@@ -26,18 +26,28 @@ from physion.dataviz.episodes.trial_average import plot
 
 for f in dataset['files']:
 
+    # load the data
     data = Data(f)
     data.build_photodiode()
     data.build_MUA()
+    data.build_spikes()
 
+    # restructure the data into episodes of visual-stimulation
     ep = EpisodeData(data, 
                     prestim_duration=2, 
-                    quantities=['MUA', 'photodiode'],
+                    quantities=['MUA', 'spikes', 'photodiode'],
                     protocol_id=0)
 
     fig, AX = plot(ep, 
                    smoothing=40,
                    quantity='MUA',
+                   with_screen_inset=True,
+                   column_key='x-center',
+                   row_key='y-center')
+
+    fig, AX = plot(ep, 
+                   smoothing=40,
+                   quantity='spikes',
                    with_screen_inset=True,
                    column_key='x-center',
                    row_key='y-center')
