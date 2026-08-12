@@ -31,6 +31,7 @@ def FS(Screen, Nrepeat):
     "-----------------------------------------------------------------1":0,
     "presentation-duration": 1.0,
     "presentation-interstim-period": 5.0,
+    "presentation-interstim-jitter": 3.0,
     "presentation-blank-screen-color": 0.25,
     "N-repeat": %i,
     "-----------------------------------------------------------------3":0,
@@ -50,7 +51,8 @@ def RM(Screen, Nrepeat):
     "Screen": "%s",
     "-----------------------------------------------------------------1":0,
     "presentation-duration": 1,
-    "presentation-interstim-period": 1.0,
+    "presentation-interstim-period": 1.5,
+    "presentation-interstim-jitter": 0.5,
     "N-repeat": %i,
     "-----------------------------------------------------------------2":0,
     "x-center-1": 15.0, "x-center-2": 75.0, "N-x-center": 3,
@@ -78,7 +80,8 @@ def PM(Screen, Nrepeat):
     "shuffling-seed" :34,
     "-----------------------------------------------------------------1":0,
     "presentation-duration": 2.0,
-    "presentation-interstim-period": 2.0,
+    "presentation-interstim-period": 3.0,
+    "presentation-interstim-period": 1.5,
     "N-repeat": %i,
     "-----------------------------------------------------------------2":0,
     "x-center-1": -15.0, "x-center-2": 105.0, "N-x-center": 7,
@@ -107,6 +110,7 @@ def FD(Screen, Nrepeat, x, y):
     "presentation-prestim-period": 15.0,
     "presentation-poststim-period": 5.0,
     "presentation-interstim-period": 3.0,
+    "presentation-interstim-jitter": 1.5,
     "presentation-blank-screen-color": 0.5,
     "Screen": "%s",
   """ % Screen
@@ -209,10 +213,10 @@ def FD(Screen, Nrepeat, x, y):
   return fourDimVisualInfo
 
 
-if 0:
-  build_movie(FS(Screen, 100), name='flashed-stimuli')#, rm=False)
+if 1:
+  build_movie(FS(Screen, 10), name='flashed-stimuli')#, rm=False)
 
-if 0:
+if 1:
   build_movie(RM(Screen, 20), name='rough-mapping')#, rm=False)
 
 if 1:
@@ -220,39 +224,13 @@ if 1:
 
 if 0:
   tic = time.time()
-
   x, y = 45, 20
-  build_movie(FD(Screen, 20, x, y), name='4dim-visInfo-x=%.0f-y=%.0f' % (x,y))#, rm=False)
-
+  build_movie(FD(Screen, 1, x, y), name='4dim-visInfo-x=%.0f-y=%.0f' % (x,y))#, rm=False)
   print(' --> protocol generation took %.1f minutes ' % ((time.time()-tic)/60.))
 
-if 0:
-  tic = time.time()
+if 1:
+  # tic = time.time()
   for x, y in itertools.product(
      [25, 45, 65], [5, 20, 35]):
      build_movie(FD(Screen, 20, x, y), name='4dim-visInfo-x=%.0f-z=%.0f' % (x,y))#, rm=False)
-
-  print(' --> protocol generation took %.1f minutes ' % ((time.time()-tic)/60.))
-
-if 0:
-  build_movie(DM(Screen, 1), name='detailed-mapping')#, rm=False)
-
-if 0:
-  # build_movie(SM, name='spatial-mapping', rm=False)
-  import json
-  with open('spatial-mapping.json', 'r') as f:
-     stim = json.load(f)
-  import sys
-  sys.path.append('./physion/src')
-  from physion.visual_stim.build import build_stim
-  Stim = build_stim(stim)
-
-  import matplotlib.pylab as plt
-  import numpy as np
-
-  im = Stim.get_image(1).T
-  print(im.min(), im.mean(), im.max())
-  im = np.uint8(255.*im)
-  print(im.min(), im.mean(), im.max())
-  plt.imshow(im, vmin=0, vmax=255)
-  plt.show()
+  # print(' --> protocol generation took %.1f minutes ' % ((time.time()-tic)/60.))
