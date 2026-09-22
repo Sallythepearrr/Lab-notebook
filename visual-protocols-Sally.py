@@ -214,6 +214,15 @@ def FD(Screen, Nrepeat, x, y):
 
 if 0:
   build_movie(FS(Screen, 100), name='flashed-stimuli')#, rm=False)
+<<<<<<< HEAD
+=======
+
+if 0:
+  build_movie(RM(Screen, 20), name='rough-mapping')#, rm=False)
+
+if 1:
+  build_movie(PM(Screen, 30), name='precise-mapping', rm=True)
+>>>>>>> 504e9ac (update analysis notebook)
 
 if 0:
   build_movie(RM(Screen, 20), name='rough-mapping')#, rm=False)
@@ -221,12 +230,15 @@ if 0:
 if 0:
   build_movie(PM(Screen, 30), name='precise-mapping')#, rm=True)
 
+<<<<<<< HEAD
 if 1:
   tic = time.time()
   x, y = 45, 20
   build_movie(FD(Screen, 20, x, y), name='4dim-visInfo-x=%.0f-z=%.0f-FIX' % (x,y))#, rm=False)
   print(' --> protocol generation took %.1f minutes ' % ((time.time()-tic)/60.))
 
+=======
+>>>>>>> 504e9ac (update analysis notebook)
 if 0:
   # tic = time.time()
   for x, y in itertools.product(

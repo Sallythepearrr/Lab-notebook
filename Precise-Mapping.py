@@ -14,7 +14,7 @@ from physion.analysis.read_NWB import Data,\
 
 dataset = scan_folder_for_NWBfiles(\
         os.path.join(os.path.expanduser('~'), 
-            'DATA'),
+            'DATA', '2026_07_31'),
             for_protocols=['detailed-mapping', 'precise-mapping'])
             # )
 
@@ -28,10 +28,12 @@ for f in dataset['files']:
 
     data = Data(f)
     data.build_MUA()
+    data.build_LFP()
+    data.build_spikes()
 
     ep = EpisodeData(data, 
-                    prestim_duration=2, 
-                    quantities=['MUA'],
+                    prestim_duration=1, 
+                    quantities=['MUA','spikes','LFP'],
                     protocol_id=0)
 
     fig, AX = plot(ep, 
@@ -40,4 +42,53 @@ for f in dataset['files']:
                    with_screen_inset=True,
                    column_key='x-center',
                    row_key='y-center')
+
+    fig, AX = plot(ep, 
+                       smoothing=40,
+                       quantity='spikes',
+                       with_screen_inset=True,
+                       column_key='x-center',
+                       row_key='y-center')
+
+    fig, AX = plot(ep, smoothing=30,
+                        quantity='LFP',
+                        with_screen_inset=True,
+                        column_key='x-center',
+                        row_key='y-center'
+                        )
     fig.suptitle(f)
+
+
+# %%
+
+fig, AX = plot(ep, smoothing=50,
+                    with_std=False,
+                    quantity='spikes',
+                    with_screen_inset=True,
+                    with_annotation=True,
+                    column_key='x-center',
+                    row_key='y-center',
+                    # color_key='angle'
+                    )
+
+fig, AX = plot(ep, smoothing=50,
+                    with_std=False,
+                    quantity='LFP',
+                    with_screen_inset=True,
+                    with_annotation=True,
+                    column_key='x-center',
+                    row_key='y-center',
+                    # color_key='angle'
+                    )
+
+# %%
+fig, AX = plot(ep, smoothing=50,
+                    with_std=False,
+                    quantity='MUA',
+                    with_screen_inset=True,
+                    with_annotation=True,
+                    column_key='x-center',
+                    row_key='y-center',
+                    # color_key='angle'
+                    )
+# %%
