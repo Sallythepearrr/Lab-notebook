@@ -1,0 +1,20 @@
+{
+    "Presentation": "Stimulus-Sequence",
+    "Stimulus": "grating-VSE",
+    "presentation-duration": 4.0,
+    "presentation-interstim-period": 3.0,
+    "N-repeat": 20,
+    "_______________________________________________________________________1":0,
+    "min-saccade-duration": 0.2,
+    "max-saccade-duration": 1.0,
+    "saccade-amplitude": 200.0, 
+    "seed": 0,
+    "contrast": 0.20,
+    "radius": 15.00,
+    "x-center": 65.00,
+    "y-center": 35.00,
+    "spatial-freq":0.04,
+    "_______________________________________________________________________2":0,
+    "angle-1": 0, "angle-2": 90, "N-angle": 2,
+    "Screen": "LN-2screens"
+  }
