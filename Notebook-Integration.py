@@ -18,47 +18,50 @@ from physion.analysis.episodes.build import EpisodeData
 pt.set_style('dark')
 
 # %%
-folder = os.path.join(os.path.expanduser('~'), 
-                      'DATA', 'physion_Demo-Datasets', 'Neuropix-WT')
+folder = os.path.join(os.path.expanduser('/'), 
+                      'mnt', 'data', 'NWB_npx')
 
 notebook_folder =\
     os.path.join(os.path.expanduser('~'), 
-        # 'OneDrive - ICM', 'Lab-Notebook', 'Projects', 'Sally-Phd', 'figs')
-        'OneDrive - ICM', 'Lab-Notebook', 'Data')
-        # 'OneDrive', 'Lab-Notebook', 'Projects', 'Sally-Phd', 'figs')
+
+        'OneDrive', 'Lab-Notebook', 'Data','Ephys')
 
 if not os.path.isdir(os.path.join(folder, 'temp')):
     os.mkdir(os.path.join(folder, 'temp'))
 
 # %%
-dataset = scan_folder_for_NWBfiles(folder)
+dataset = scan_folder_for_NWBfiles(\
+        os.path.join(
+            os.path.expanduser('/'), 
+            'mnt','data', 'NWB_npx'),
+            for_protocol='Plasticity')
 
 # %%
 # doing an analysis over different viruses
-sorted = {}
-for v, virus in enumerate(\
-        np.unique(dataset['viruses'])):
+# sorted = {}
+# for v, virus in enumerate(\
+#         np.unique(dataset['viruses'])):
 
-    print(' - %s:' % virus)
-    virus_cond = (virus==dataset['viruses'])
+#     print(' - %s:' % virus)
+#     virus_cond = (virus==dataset['viruses'])
 
-    sorted[virus] = {}
-    for s, subject in enumerate(\
-            np.unique(dataset['subjects'][virus_cond])):
+#     sorted[virus] = {}
+#     for s, subject in enumerate(\
+#             np.unique(dataset['subjects'][virus_cond])):
 
-        sorted[virus][subject] = []
-        subject_cond = dataset['subjects'][virus_cond]==subject
+#         sorted[virus][subject] = []
+#         subject_cond = dataset['subjects'][virus_cond]==subject
 
-        subject_files = [os.path.basename(f) for f in \
-            dataset['files'][virus_cond][subject_cond]]
+#         subject_files = [os.path.basename(f) for f in \
+#             dataset['files'][virus_cond][subject_cond]]
 
-        print('     - %s:' % subject)
-        for s in subject_files:
-            print('         - [%s](../../Data/%s.md)' %\
-                (s.replace('.nwb',''), s.replace('.nwb','')))
-        for s in dataset['files'][virus_cond][subject_cond]:
-            sorted[virus][subject].append(s)
-    print('\n')
+#         print('     - %s:' % subject)
+#         for s in subject_files:
+#             print('         - [%s](../../Data/%s.md)' %\
+#                 (s.replace('.nwb',''), s.replace('.nwb','')))
+#         for s in dataset['files'][virus_cond][subject_cond]:
+#             sorted[virus][subject].append(s)
+#     print('\n')
 
 # %% [markdown]
 # # Analysis Per Session
@@ -167,6 +170,11 @@ def single_rec(filename,
         f.write(text)
     return text
 
+for i, filename in enumerate(dataset['files']):
+    print(i, filename)
+    text = single_rec(dataset['files'][i])
+
+# %%
 text = single_rec(dataset['files'][0])
 print(text)
 # %%

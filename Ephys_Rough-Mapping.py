@@ -24,7 +24,7 @@ dataset = scan_folder_for_NWBfiles(\
             for_protocol='rough-mapping')
 
 for i, filename in enumerate(dataset['files']):
-    print(i, filename)
+    print(i, filename, '->', dataset['protocols'][i])
 
 # %%
 pt.set_style('manuscript')

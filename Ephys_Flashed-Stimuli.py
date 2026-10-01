@@ -25,6 +25,9 @@ dataset = scan_folder_for_NWBfiles(\
             'mnt','data', 'NWB_npx'),
             for_protocol='flashed-stimuli')
 
+notebook_folder = "/home/pan.zhang/OneDrive/Lab-Notebook/4D_Project_Analysis/Figs"
+for i, filename in enumerate(dataset['files']):
+    print(i, filename)
 
 # %%
 # Loop over all files
@@ -47,18 +50,46 @@ for f in dataset['files']:
                     # with_stat_test=True
                     )
     fig.suptitle(f)
+    # pt.save(fig, notebook_folder, 'spiking-evoked1.svg')
 
+
+# %%
+# Loop over all files (firing)
+
+for f in dataset['files']:
+
+    data = Data(f)
+    data.build_firing()
+    data.restrict_to_region('VISp')
+
+    ep = EpisodeData(data, 
+                    prestim_duration=1, 
+                    quantities=[
+                        'firing'],
+                    protocol_id=0,
+                    )
+
+    fig, AX = plot(ep,
+                    smoothing=20,
+                    with_std=False,
+                    quantity='firing',
+                    with_annotation=True,
+                    # with_stat_test=True
+                    )
+    fig.suptitle(f)
 
 # %%
 # Single Protocol
 
 import matplotlib.pyplot as plt
 
-data = Data(dataset['files'][9])
+data = Data(dataset['files'][11])
+data.build_firing()
+data.restrict_to_region('VISp')
 
 ep = EpisodeData(data, 
                     prestim_duration=1, 
-                    quantities=[ 'spikes'],
+                    quantities=[ 'spikes','firing'],
                     protocol_id=0)
 
 # %%
